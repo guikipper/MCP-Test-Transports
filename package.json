@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@langchain/core": "^0.3.43",
+    "@langchain/langgraph": "^0.2.62",
+    "@langchain/mcp-adapters": "^0.3.4",
+    "@langchain/openai": "^0.5.2"
+  }
+}
