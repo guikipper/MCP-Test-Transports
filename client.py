@@ -17,8 +17,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 model = ChatOpenAI(model="gpt-4o-mini")
 
 server_params = StdioServerParameters(
-    command="python",
-    args=[r"STDIO-MCP-Servers\math-server.py"]
+    command="ts-node",
+    args=[r"C:\Users\Pichau\Desktop\ClickUp MCP Server\clickup-mcp-server\src\server.ts"]
 )
 
 # Função assíncrona para rodar o código
@@ -34,7 +34,7 @@ async def run():
 
             # Criar e rodar o agente    
             agent = create_react_agent(model, tools)
-            agent_response = await agent.ainvoke({"messages": "what's (3+5) x 12?"})
+            agent_response = await agent.ainvoke({"messages": "Quais as tools disponíveis?"})
 
             # Exibir resposta do agente
             for m in agent_response['messages']:

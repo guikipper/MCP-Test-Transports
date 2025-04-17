@@ -6,33 +6,33 @@ import asyncio
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.prebuilt import create_react_agent
 from langchain_openai import ChatOpenAI
-import sys
+import os
+
+CLICKUP_API_KEY="pk_87967406_5A07ZEGIDJTWGZIYFNW8H5LPIRQMYPDK"
+CLICKUP_TEAM_ID="9013593366"
+
+model = ChatOpenAI(model="gpt-4o-mini")
 
 async def main():
-    model = ChatOpenAI(model="gpt-4o-mini")
+    
     servers_config = {
-        "math": { 
-          "command": "python",
-          "args": [r"STDIO-MCP-Servers\math-server.py"],
-          "transport": "stdio",
-       },
-    }
-        #"math-SSE": {
-        #    # make sure you start your weather server on port 8000
-        #    "url": "http://127.0.0.2:3000/sse",
-        #    "transport": "sse",
-        #},
-
-        #       "weather": {
-        #    # make sure you start your weather server on port 8000
-        #    "url": "http://127.0.0.1:3000/sse",
-        #    "transport": "sse",
-        #},
+            "ClickUp": {
+                "command": "npx",
+                "args": [ 
+                    "-y",
+                    "@taazkareem/clickup-mcp-server@latest"],
+                "env": {
+                    "CLICKUP_API_KEY":CLICKUP_API_KEY,
+                    "CLICKUP_TEAM_ID":CLICKUP_TEAM_ID,
+                },
+                "transport": "stdio",
+            },
+        }
    
     async with MultiServerMCPClient(servers_config) as client:
         tools = client.get_tools()
         agent = create_react_agent(model, tools)
-        response = await  agent.ainvoke({"messages": "What is 35+4"})
+        response = await agent.ainvoke({"messages": "Me retorne todas as tools"})
         print(response)
 
 if __name__ == "__main__":
